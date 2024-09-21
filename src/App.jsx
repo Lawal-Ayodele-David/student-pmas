@@ -1,23 +1,43 @@
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import './App.css';
+import React from 'react'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Header from './components/Layout/Header';
+import Home from './components/Home/Home';
+import Footer from './components/Layout/Footer';
+import Login from './components/Auth/Login';
+import Register from './components/Auth/Register';
+import PrivateRoute from './components/Auth/PrivateRoute';
+import StudentDashboard from './components/Student/StudentDashboard';
+import SupervisorDashboard from './components/Supervisor/SupervisorDashboard';
+import AdminDashboard from './components/Admin/AdminDashboard';
 
 function App() {
-
   return (
     <Router>
       <div>
         <Header />
-        <Switch>
-          <Route path="/login" component={Login} />
-          <Route path="/register" component={Register} />
-          <PrivateRoute path="/student/dashboard" component={StudentDashboard} role="student" />
-          <PrivateRoute path="/supervisor/dashboard" component={SupervisorDashboard} role="supervisor" />
-          <PrivateRoute path="/admin/dashboard" component={AdminDashboard} role="admin" />
-        </Switch>
+        <Routes>
+          <Route path="/" element={<AdminDashboard />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          
+          {/* Private routes */}
+          <Route
+            path="/student/dashboard"
+            element={<PrivateRoute element={<StudentDashboard />} role="student" />}
+          />
+          <Route
+            path="/supervisor/dashboard"
+            element={<PrivateRoute element={<SupervisorDashboard />} role="supervisor" />}
+          />
+          <Route
+            path="/admin/dashboard"
+            element={<PrivateRoute element={<AdminDashboard />} role="admin" />}
+          />
+        </Routes>
         <Footer />
       </div>
     </Router>
-  )
+  );
 }
 
 export default App;
